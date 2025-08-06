@@ -4,6 +4,7 @@ import{BooksListFilter} from '../models/books-list-filter.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookDetailsModalComponent } from '../book-details-modal/book-details-modal.component';
+import { ToastService } from '../shared/toast.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class BooksListComponent {
     filterParameter:BooksListFilter=new BooksListFilter();
 
     constructor(private booksListServices:BooksListService,
-                private toastrService:ToastrService,
+                private toastService:ToastService,
                 private modalService:NgbModal,
                ){}
 
@@ -50,10 +51,10 @@ export class BooksListComponent {
 
  
   //use for sotring search filter applied at session storege 
-  saveSearchAppliedFilter(searchFilterData: BooksListFilter): void {
+  saveSearchAppliedFilter(): void {
     // Save only if running in the browser
     if (typeof window !== 'undefined' && sessionStorage) {
-      sessionStorage.setItem('searchFilters', JSON.stringify(searchFilterData));
+      sessionStorage.setItem('searchFilters', JSON.stringify(this.filterParameter));
     }
   }
 
@@ -141,7 +142,7 @@ export class BooksListComponent {
     BooksList(){
      // this.BooksListServices.filterParameter=this.inputFilterData();
     
-     this.saveSearchAppliedFilter(this.filterParameter)
+     this.saveSearchAppliedFilter()
       this.booksListServices.BookListGet(this.filterParameter).subscribe((data:any)=>{
 
         this.BookList=data.bookList;
@@ -170,5 +171,22 @@ export class BooksListComponent {
       })
     }
 
-   
+    deleteBook(bookId:number,bookName:string){
+        if(bookId===0 && bookId===null)
+        {
+          this.toastService.showErrorToast("book delete failed..try again",'Id Error')
+          return;
+        }
+        
+        if(!confirm(`Are you sure to delete "${bookName}" book`)) return;
+
+        this.booksListServices.DeleteBookApi(bookId).subscribe((result:any)=>{
+          if(result.success){
+            this.toastService.showSuccessToast(result.message,'Deleted Success');
+            this.BooksList();
+          }
+          else
+            this.toastService.showErrorToast(result.message,'Delete failed')
+        })
+    }
 }

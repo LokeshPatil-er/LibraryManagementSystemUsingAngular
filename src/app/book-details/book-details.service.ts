@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BookDetails } from '../models/book-details.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { BookDetails } from '../models/book-details.model';
 export class BookDetailsService {
     
 
-  baseUrl:string="http://localhost:56100/api/"
+  baseUrl:string=environment.apiBaseUrl
   constructor(private httpClient:HttpClient) { }
 
   

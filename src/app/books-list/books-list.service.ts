@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BooksListFilter } from '../models/books-list-filter.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class BooksListService {
 
 
 
-  baseUrl:string="http://localhost:56100/api/"
+  baseUrl:string=environment.apiBaseUrl;
   constructor(private httpClient:HttpClient) { }
 
   
@@ -21,5 +22,13 @@ export class BooksListService {
 
   PublishersAndCoursesListApi(){
     return this.httpClient.get(this.baseUrl+"Books/GetPublisherListAndCourseList");
+  }
+
+  //api call for delete book opertion take book id as parameter
+  DeleteBookApi(selectedBookId:number)
+  {
+    let params=new HttpParams()
+    .set('BookId',selectedBookId)
+    return this.httpClient.get(this.baseUrl+"Books/deleteBook",{params})
   }
 }

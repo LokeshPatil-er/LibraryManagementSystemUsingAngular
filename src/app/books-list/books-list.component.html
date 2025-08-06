@@ -247,7 +247,7 @@
               
         </thead>
         <tbody>
-          <!-- When there are books -->
+          <!-- When there are book list -->
            <ng-container *ngIf="BookList?.length > 0; else noRecords">
 
             <tr *ngFor="let book of BookList; let i = index" >
@@ -267,6 +267,11 @@
                 <button class="btn btn-sm btn-outline-primary m-1" routerLink="/BookDetailsUpdate/{{ book.BookId }}">
                   <i class="bi bi-pencil-square"></i>
                 </button>
+
+                <button class="btn btn-sm btn-outline-danger m-1" (click)="deleteBook(book.BookId,book.BookName)">
+                  <i class="bi bi-trash"></i>
+                </button>
+
                 <button class="btn btn-sm btn-primary" (click)="UpdateBookDetails('update', book.BookId)">Update</button>
               </td>
             </tr>

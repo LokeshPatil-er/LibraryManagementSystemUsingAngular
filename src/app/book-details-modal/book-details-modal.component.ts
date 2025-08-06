@@ -34,10 +34,9 @@ export class BookDetailsModalComponent {
 
   ngOnInit():void{
     this.GetPublishersAndCoursesForModal()
-    //this.selectedBookId=this.router.snapshot.paramMap.get('bookId');
+    
     if(this.selectedBookId!==null && this.selectedBookId!=='0')
     {
-      
         this.loadBookDetail(this.selectedBookId)
     }
   }
