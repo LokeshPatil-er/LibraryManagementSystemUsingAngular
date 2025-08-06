@@ -1,0 +1,117 @@
+.courseSelector{
+    color: black !important;
+    background-color: aliceblue !important;
+}
+
+label{
+    color: rgb(8, 7, 7);
+    font-weight: 500;
+    display:block ;
+}
+
+.sectionHeading{
+    display: block;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+th{
+background-color: rgb(151, 167, 197);
+max-width: 100%;
+}
+
+.right-align-button {
+    text-align: right;
+    padding-right: 6px;
+  }   
+
+  .mainDiv{
+   
+    width: 100%;
+  }
+
+  /* Table styling like DataTables */
+table.table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  /* Clean header style */
+  table.table thead th {
+    background-color: #a4acee;   
+    color: #000;
+    font-weight: 700;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #dcdcdc;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  /* Remove background and padding from buttons */
+  table.table thead th button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 6px;
+    font-size: 12px;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  
+  table.table thead th button:hover {
+    color: #333;
+  }
+  
+  /* Arrow spacing and vertical alignment */
+  table.table thead th span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  /* Row style */
+  table.table tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  /* Zebra striping */
+  table.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Default sort icon */
+table.table thead th button span {
+    color: #afa2a2;
+  }
+  
+  /* Highlighted sort icon for active column */
+  table.table thead th button.active-sort span {
+    color: #007bff; 
+    font-weight: bold;
+  }
+
+  /* Default sort icon */
+table.table thead th button span {
+    display: inline-block;
+    color: #aa8484;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Rotate Up for ASC */
+  table.table thead th button.rotate-up span {
+    transform: rotate(180deg); 
+  }
+  
+  /* No rotation for DESC (original ▲) */
+  table.table thead th button.rotate-down span {
+    transform: rotate(0deg);
+  }
+  

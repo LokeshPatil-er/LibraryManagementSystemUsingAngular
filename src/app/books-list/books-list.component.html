@@ -1,0 +1,331 @@
+
+
+<div class="d-grid mainDiv" >
+    <div class="shadow p-3 mt-3 rounded" style="background-color: white;">
+        <div class="row  ">
+            <span class="sectionHeading">Search Filters :</span>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label class="">Book Name</label>
+                <input [(ngModel)]="filterParameter.BookName" type="text" class="form-control mt-2" placeholder="Enter Book Name"/>
+            </div>
+            <div class="col-3">
+                <label for="Publisher">Publisher</label>
+                <!-- <select [(ngModel)]="filterParameter.PublisherId" name="SelectPublisher" id="PublisherSelector" class="form-select m-2 " multiple>
+                    <option [value]="null">Select Publisher</option>
+                    <option   *ngFor="let publisher of PublisherList" [value]="publisher.PublisherId">{{publisher.Publisher}}</option>
+                </select> -->
+
+                <ng-select class="mt-2" [(ngModel)]="filterParameter.PublisherIdList" [items]="PublisherList" bindLabel="Publisher" bindValue="PublisherId" [multiple]="true" placeholder="select Publisher"></ng-select>
+
+            </div>
+            <div class="col-3">
+                <label for="Courses">Course</label>
+                <!-- <select [(ngModel)]="filterParameter.CourseId" name="SelectCourse" id="CourseSelector" class="form-select m-2">
+                  <option [value]="null">Select Course</option>
+                    <option  *ngFor="let course of CourseList" [value]="course.CourseId">{{course.Course}}</option>
+                </select> -->
+
+                <ng-select class="mt-2" [(ngModel)]="filterParameter.CoursesIdList" [items]="CourseList" bindLabel="Course" bindValue="CourseId" [multiple]="true" placeholder="select course"></ng-select>
+            </div>
+            <div class="col-3">
+                <label>Status</label>
+                <select [(ngModel)]="filterParameter.IsActive" name="IsActive" id="IsActive" class="form-select mt-2">
+                    <option [value]="null">Select Status</option>
+                    <option [value]="true">True</option>
+                    <option [value]="false">False</option>
+                </select>
+            </div>
+            
+        </div>
+        <div class="row mt-2">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <button (click)="BooksList()" type="button" class="btn btn-outline-success m-2">Apply</button>
+                <button (click)="ResetBtnClick()" type="button" class="btn btn-outline-danger m-2">Reset</button>
+            </div>
+        </div>
+        
+    </div>
+<div class="shadow p-3 mt-4 rounded" style="background-color: white;">
+    <div class="row mt-2 ">
+        <span class="col sectionHeading">Books List :</span> 
+       
+        <div class="col d-md-flex justify-content-end">
+
+          <button class="btn btn-sm btn-outline-info m-2" routerLink="/BooksAdd">
+            <i class="bi bi-plus-circle-fill"></i>
+        </button>
+        <button class="btn btn-sm btn-primary m-2 " (click)="newBookAddBtnClick('add')">+ New Book Add</button>
+
+        </div>
+            
+        
+            
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead >
+            <tr class="">
+                <th scope="col">
+                    <span>Book Id</span> 
+                    <button class="btn btn-link p-0"
+                          [ngClass]="{
+                            'active-sort': filterParameter.ColumnNameForSort === 'BookId',
+                            'rotate-up': filterParameter.ColumnNameForSort === 'BookId' && filterParameter.sortOrderForColumn === 'ASC',
+                            'rotate-down': filterParameter.ColumnNameForSort === 'BookId' && filterParameter.sortOrderForColumn === 'DESC'
+                          }"
+                          (click)="sortData('BookId')"
+                          placement="bottom"
+                          [ngbTooltip]="getSortHint('BookId')">
+                          >
+                    <span>▲</span>
+                  </button>
+
+                </th>
+              
+                <th scope="col">
+                    <span>Book Name</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'BookName',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'BookName' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'BookName' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('BookName')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('BookName')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Publisher Name</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'Publisher',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'Publisher' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'Publisher' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('Publisher')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('Publisher')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Course Name</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'Course',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'Course' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'Course' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('Course')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('Course')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Pages</span>  
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'Pages',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'Pages' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'Pages' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('Pages')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('Pages')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Edition</span>  
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'Edition',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'Edition' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'Edition' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('Edition')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('Edition')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>EditionYear</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'EditionYear',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'EditionYear' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'EditionYear' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('EditionYear')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('EditionYear')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>TotalCopies</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'TotalCopies',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'TotalCopies' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'TotalCopies' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('TotalCopies')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('TotalCopies')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Available Count</span> 
+                    <button class="btn btn-link p-0"
+                    [ngClass]="{
+                      'active-sort': filterParameter.ColumnNameForSort === 'AvailableCount',
+                      'rotate-up': filterParameter.ColumnNameForSort === 'AvailableCount' && filterParameter.sortOrderForColumn === 'ASC',
+                      'rotate-down': filterParameter.ColumnNameForSort === 'AvailableCount' && filterParameter.sortOrderForColumn === 'DESC'
+                    }"
+                    (click)="sortData('AvailableCount')"
+                    placement="bottom"
+                    [ngbTooltip]="getSortHint('AvailableCount')">
+              <span>▲</span>
+            </button>
+                </th>
+              
+                <th scope="col">
+                   <span>Lost Count</span> 
+                   <button class="btn btn-link p-0"
+                   [ngClass]="{
+                     'active-sort': filterParameter.ColumnNameForSort === 'LostCount',
+                     'rotate-up': filterParameter.ColumnNameForSort === 'LostCount' && filterParameter.sortOrderForColumn === 'ASC',
+                     'rotate-down': filterParameter.ColumnNameForSort === 'LostCount' && filterParameter.sortOrderForColumn === 'DESC'
+                   }"
+                   (click)="sortData('LostCount')"
+                   placement="bottom"
+                   [ngbTooltip]="getSortHint('LostCount')">
+             <span>▲</span>
+           </button>
+                </th>
+              
+                <th scope="col">
+                  <span> Damage Count</span> 
+                  <button class="btn btn-link p-0"
+                  [ngClass]="{
+                    'active-sort': filterParameter.ColumnNameForSort === 'DamageCount',
+                    'rotate-up': filterParameter.ColumnNameForSort === 'DamageCount' && filterParameter.sortOrderForColumn === 'ASC',
+                    'rotate-down': filterParameter.ColumnNameForSort === 'DamageCount' && filterParameter.sortOrderForColumn === 'DESC'
+                  }"
+                  (click)="sortData('DamageCount')"
+                  placement="bottom"
+                  [ngbTooltip]="getSortHint('DamageCount')">
+            <span>▲</span>
+          </button>
+                </th>
+              
+                <th scope="col">
+                    <span>Status</span> 
+                </th>
+              
+                <th scope="col">
+                  <span>Action</span>
+                </th>
+              
+              </tr>
+              
+              
+        </thead>
+        <tbody>
+          <!-- When there are books -->
+           <ng-container *ngIf="BookList?.length > 0; else noRecords">
+
+            <tr *ngFor="let book of BookList; let i = index" >
+              <td scope="row">{{ book.BookId }}</td>
+              <td scope="row">{{ book.BookName }}</td>
+              <td scope="row">{{ book.PublisherName }}</td>
+              <td scope="row">{{ book.CourseName }}</td>
+              <td scope="row">{{ book.Pages }}</td>
+              <td scope="row">{{ book.Edition }}</td>
+              <td scope="row">{{ book.EditionYear }}</td>
+              <td scope="row">{{ book.TotalCopies }}</td>
+              <td scope="row">{{ book.AvailableCount }}</td>
+              <td scope="row">{{ book.LostCount }}</td>
+              <td scope="row">{{ book.DamageCount }}</td>
+              <td scope="row">{{ book.IsActive }}</td>
+              <td scope="row">
+                <button class="btn btn-sm btn-outline-primary m-1" routerLink="/BookDetailsUpdate/{{ book.BookId }}">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-primary" (click)="UpdateBookDetails('update', book.BookId)">Update</button>
+              </td>
+            </tr>
+
+           </ng-container>
+         
+        <!-- When no records exist -->
+        <ng-template #noRecords>
+           <tr>
+            <td colspan="13" class="text-center text-danger">No records found.</td>
+          </tr>
+        </ng-template>
+         
+        </tbody>
+        
+    </table>
+    </div>
+
+    <span *ngIf="TotalRecords>0">showing {{showingFrom}} to {{showingTo }} from {{TotalRecords}} entries</span>
+
+    
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 gap-3">
+
+    <div class="d-flex align-items-center">
+      <label for="PageSizeInput" class="me-2 mb-0">Page Size:</label>
+      <input type="number" min="1" class="form-control form-control-sm" 
+              style="width: 100px;"
+              [(ngModel)]="filterParameter.PageSize"
+              id="PageSizeInput"
+              (change)="BooksList()">
+        
+    
+    </div>
+
+    <div class="d-flex justify-content-center w-100">
+      <ngb-pagination *ngIf="isLoadedBookList"
+        [collectionSize]="TotalRecords" 
+        [(page)]="filterParameter.PageNumber" 
+        [pageSize]="filterParameter.PageSize" 
+        [boundaryLinks]="true"
+        [maxSize]="4"
+        [ellipses]="true"
+        (pageChange)="BooksList()"
+        size="md">
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+      </ngb-pagination>
+    </div>
+  
+  </div>
+  
+      
+
+        
+        
+
+    
+</div>
+
+
+</div>

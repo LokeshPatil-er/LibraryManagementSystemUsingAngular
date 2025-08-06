@@ -1,0 +1,105 @@
+
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{mode==='add' ? 'Add Book' : 'Update Book'}}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="closeBookDetailsModal()"></button>
+	</div>
+	<div class="modal-body">
+		<form action="" #addForm="ngForm">
+           
+                <div class="mt-2 mb-2 ">
+                    <span style="font-weight: bold; font-size: large;">Book Detail :</span>
+                </div>
+                <div class="row mt-3" >
+                    <div class="col">
+                        <label for="BookName">Book Name</label>
+                        <input [(ngModel)]="bookDetails.BookName" name="BookName" #bookName="ngModel" class="form-control mt-2" type="text" placeholder="enter name here.." required minlength="3">
+                        <small class="text-danger" *ngIf=" bookName.touched && bookName.errors?.['required']">Book Name Is Requird</small>
+                        <small class="text-danger" *ngIf="bookName.touched && bookName.errors?.['minlength']">Book Name should be minimum 3 character</small>
+                    </div>
+                
+                    <div class="col">
+                        <label for="Pages">Pages</label>
+                        <input [(ngModel)]="bookDetails.Pages" name="Pages" #pages="ngModel" type="number" min="1" step="1" class="form-control mt-2" placeholder="enter Pages here.." required>
+                        <small class="text-danger" *ngIf="pages.touched && pages.errors?.['required']">Pages is required</small>
+                        <small class="text-danger" *ngIf="pages.touched && pages.errors?.['min']">pages should greater than 0</small>
+                    </div>
+                </div>
+            
+            
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="publisher">Publisher </label>
+                        <select [(ngModel)]="bookDetails.PublisherId" name="SelectPublisher" #publisherSelector="ngModel" id="PublisherSelector" class="form-select mt-2" required>
+                            <option [value]="null">Select Publisher</option>
+                            <option *ngFor="let publisher of publishersListAtModal" [value]="publisher.PublisherId">{{publisher.Publisher}}</option>
+                        </select>
+                        <small class="text-danger" *ngIf="publisherSelector.touched && publisherSelector.errors?.['required']">Publisher is required</small>
+        
+                    </div>
+            
+                    <div class="col">
+                        <label for="Course">Course </label>
+                        <select [(ngModel)]="bookDetails.CourseId" name="SelectCourse" #courseSelector="ngModel" id="CourseSelector" class="form-select mt-2" required >
+                            <option [value]="null">Select Course</option>
+                            <option *ngFor="let course of coursesListAtModal" [value]="course.CourseId">{{course.Course}}</option>
+                        </select>
+                        <small class="text-danger" *ngIf="courseSelector.touched && courseSelector.errors?.['required']">Course is required</small>
+                    </div>
+                </div>
+            
+                <div class="row mt-3">
+            
+                    <div class="col">
+                        <label for="Edition">Edition</label>
+                        <input [(ngModel)]="bookDetails.Edition" name="Edition" #edition="ngModel" class="form-control mt-2" type="text" placeholder="enter Edition here.." required pattern="^([1-9][0-9]*)(st|nd|rd|th)$">
+                        <small class="text-danger" *ngIf="edition.touched && edition.errors?.['required']">Edition is required</small>
+                        <small class="text-danger" *ngIf="edition.touched && edition.errors?.['pattern']">Edition should be in format (like 1st,2nd,3rd etc)</small>
+                    </div>
+            
+                    <div class="col">
+                        <label for="EditionYear">Edition Year</label>
+                        <input [(ngModel)]="bookDetails.EditionYear" name="EditionYear" #editionYear="ngModel" class="form-control mt-2" type="text" placeholder="enter Edition Year here.." required pattern="\b(175[3-9]|17[6-9]\d|1[89]\d{2}|[2-9]\d{3})\b">
+                        <small class="text-danger" *ngIf="editionYear.touched && editionYear.errors?.['required']">Edition Year is required</small>
+                        <small class="text-danger" *ngIf="editionYear.touched && editionYear.errors?.['pattern']">Edition Year should in format (1999,2021 etc) and from 1900 further</small>
+                    </div>
+                </div>
+            
+                <div class="row mt-3">
+            
+                    <div class="col-6">
+                        <label for="AddCopiesCount">Add Copies Count</label>
+                        <input [(ngModel)]="bookDetails.TotalCopies" name="TotalCopies" #totalCopies="ngModel" class="form-control mt-2" type="number" min="1" step="1" placeholder="enter Add Copies Count here.." required >
+                        <small class="text-danger" *ngIf="totalCopies.touched && totalCopies.errors?.['required']">Add Copies is required</small>
+                        <small class="text-danger" *ngIf="totalCopies.touched && totalCopies.errors?.['min']">Total Copies should greater than 0</small>
+                    </div>
+            
+                    <div class="col-2 mt-4 " style="margin-left: 70px;"> 
+                        <input [(ngModel)]="bookDetails.IsActive" name="IsActive" type="checkbox" name="IsActive" id="IsActiveCheckbox" >
+                        <label class="m-2">IsActive</label>
+                    </div>
+                </div>
+        </form>
+		
+	</div>
+	<div class="modal-footer">
+        <div class="row mt-3">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <span [ngbTooltip]="addForm.invalid ? 'Please fill all required fields correctly' : null"
+                        container="body"
+                        placement="top">
+                <button [disabled]="addForm.invalid"  
+                        (click)="BookDetailsSaveUsingModal(addForm)"
+                        [ngbTooltip]="addForm.invalid ? 'Please fill all required fields correctly' : null"
+                        
+                        type="submit" class="btn btn-outline-success m-2">Add</button></span>
+
+                <button  (click)="addForm.resetForm()"  type="button" class="btn btn-outline-danger m-2">Reset</button>
+
+                
+            </div>
+        </div>
+	</div>
+
+
+
+
