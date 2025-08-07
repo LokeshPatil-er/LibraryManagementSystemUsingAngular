@@ -172,9 +172,9 @@ export class BooksListComponent {
     }
 
     deleteBook(bookId:number,bookName:string){
-        if(bookId===0 && bookId===null)
+        if(bookId===0 || bookId===null)
         {
-          this.toastService.showErrorToast("book delete failed..try again",'Id Error')
+          this.toastService.showErrorToast("Book delete failed..Try again",'Id Error')
           return;
         }
         

@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BookDetailsModalComponent } from './book-details-modal/book-details-modal.component';
+import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
 
 
 
@@ -23,7 +24,8 @@ import { BookDetailsModalComponent } from './book-details-modal/book-details-mod
     BooksListComponent,
     HomeComponent,
     BookDetailsComponent,
-    BookDetailsModalComponent
+    BookDetailsModalComponent,
+    BooksIssueDetailsComponent
   ],
   imports: [
     BrowserModule,
