@@ -17,12 +17,12 @@
             <div class="col">
 
                 <label for="">Issue Date :</label>
-                <input [(ngModel)]="booksIssueDetailsModel.IssueDate" class="form-control mt-2" type="date" (change)="DueDateCalculate()" >
+                <input [(ngModel)]="booksIssueDetailsModel.IssueDate" class="form-control mt-2" type="date"  >
             </div>
             <div class="col">
 
                 <label for="">Due Date :</label>
-                <input [(ngModel)]="booksIssueDetailsModel.DueDate" class="form-control mt-2" type="date" readonly>
+                <input [(ngModel)]="booksIssueDetailsModel.DueDate" class="form-control mt-2" type="date" >
             </div>
 
         </div>
@@ -34,8 +34,25 @@
 
             
             <div class="col-3">
-                <label for="">Issue Support Doc :</label>
-                <input class="form-control mt-2" type="file" >
+                <label for="fileInput">Issue Support Doc :</label>
+                <input
+                        id="fileInput"
+                        type="file"
+                        class=" mt-2"
+                        accept=".pdf,.docx"
+                        multiple
+                        #inputFile
+                        (change)="onFileChange()"
+                    />
+
+                   
+            </div>
+            <div class="col-4">
+                <ul *ngIf="booksIssueDetailsModel.SelectedFilesForUpload !==null">
+                    <li *ngFor="let file of booksIssueDetailsModel.SelectedFilesForUpload">
+                    {{ file.name }} ({{ file.size }} bytes)
+                    </li>
+                </ul>
             </div>
            
 
@@ -53,6 +70,7 @@
             <div class="col d-md-flex justify-content-end m-2">
                 <button class="btn btn-sm btn-outline-primary">
                     <i class="bi bi-plus-circle-fill"></i>
+                    Select Book
                 </button>
             </div>
         </div>

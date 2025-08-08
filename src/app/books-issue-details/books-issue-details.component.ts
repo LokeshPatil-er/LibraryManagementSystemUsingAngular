@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild ,ElementRef} from '@angular/core';
 import { BooksIssueDetailsService } from './books-issue-details.service';
 import { BooksIssueDetails } from '../models/books-issue-details.model';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-books-issue-details',
@@ -11,7 +12,7 @@ export class BooksIssueDetailsComponent {
 
   membersList:any[]=[];
   memberDetails:any={};
-
+  @ViewChild('inputFile') InputFiles:ElementRef<HTMLInputElement>;
   booksIssueDetailsModel:BooksIssueDetails=new BooksIssueDetails();
 
   constructor(private booksIssueservice:BooksIssueDetailsService){}
@@ -21,15 +22,33 @@ export class BooksIssueDetailsComponent {
   }
 
 
-  //use to calculate Due date based on Issue Date
-  DueDateCalculate(){
-    if(this.booksIssueDetailsModel.IssueDate!==null)
-    {
-        this.booksIssueDetailsModel.DueDate=new Date(this.booksIssueDetailsModel.IssueDate);
-        this.booksIssueDetailsModel.DueDate.setDate(this.booksIssueDetailsModel.DueDate.getDate()+30);
+  onFileChange() {
+    const files = this.InputFiles.nativeElement.files;
+  
+    if (files && files.length > 0) {
+      if (!Array.isArray(this.booksIssueDetailsModel.SelectedFilesForUpload)) {
+        this.booksIssueDetailsModel.SelectedFilesForUpload = [];
+      }
+  
+      for (let i = 0; i < files.length; i++) {
+        const newFile = files[i];
+  
+        //first check selected file is present or not in model property
+        const alreadyExists = this.booksIssueDetailsModel.SelectedFilesForUpload.some(
+          existingFile => existingFile.name === newFile.name && existingFile.size === newFile.size
+        );
+  
+        //new file push when it is not alredy present
+        if (!alreadyExists) {
+          this.booksIssueDetailsModel.SelectedFilesForUpload.push(newFile);
+        }
+      }
     }
-
+  
+    console.log(this.booksIssueDetailsModel.SelectedFilesForUpload);
   }
+  
+  
 
   //use for get members list 
   getMembersList(){

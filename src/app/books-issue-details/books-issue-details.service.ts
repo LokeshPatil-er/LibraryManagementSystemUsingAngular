@@ -18,5 +18,9 @@ export class BooksIssueDetailsService {
     let params=new HttpParams()
     .set("MemberId",selectedMemberId);
     return this.httpclient.get(this.baseUrl+"BooksIssue/MemberDetailsById",{params});
+
+
   }
+
+  
 }
