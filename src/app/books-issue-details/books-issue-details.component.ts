@@ -2,6 +2,9 @@ import { Component, ViewChild ,ElementRef} from '@angular/core';
 import { BooksIssueDetailsService } from './books-issue-details.service';
 import { BooksIssueDetails } from '../models/books-issue-details.model';
 import { EventEmitter } from 'stream';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BooksListAtIssueModalComponent } from '../books-list-at-issue-modal/books-list-at-issue-modal.component';
+
 
 @Component({
   selector: 'app-books-issue-details',
@@ -15,7 +18,9 @@ export class BooksIssueDetailsComponent {
   @ViewChild('inputFile') InputFiles:ElementRef<HTMLInputElement>;
   booksIssueDetailsModel:BooksIssueDetails=new BooksIssueDetails();
 
-  constructor(private booksIssueservice:BooksIssueDetailsService){}
+  constructor(private booksIssueservice:BooksIssueDetailsService,
+              private modalService:NgbModal
+              ){}
 
   ngOnInit():void{
     this.getMembersList();
@@ -26,6 +31,7 @@ export class BooksIssueDetailsComponent {
     const files = this.InputFiles.nativeElement.files;
   
     if (files && files.length > 0) {
+
       if (!Array.isArray(this.booksIssueDetailsModel.SelectedFilesForUpload)) {
         this.booksIssueDetailsModel.SelectedFilesForUpload = [];
       }
@@ -48,7 +54,10 @@ export class BooksIssueDetailsComponent {
     console.log(this.booksIssueDetailsModel.SelectedFilesForUpload);
   }
   
-  
+  openBookListModal()
+  {
+      this.modalService.open(BooksListAtIssueModalComponent,{size:'lg'});
+  }
 
   //use for get members list 
   getMembersList(){

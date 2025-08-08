@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BookDetailsModalComponent } from './book-details-modal/book-details-modal.component';
 import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
+import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/books-list-at-issue-modal.component';
 
 
 
@@ -25,7 +26,8 @@ import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-de
     HomeComponent,
     BookDetailsComponent,
     BookDetailsModalComponent,
-    BooksIssueDetailsComponent
+    BooksIssueDetailsComponent,
+    BooksListAtIssueModalComponent
   ],
   imports: [
     BrowserModule,
