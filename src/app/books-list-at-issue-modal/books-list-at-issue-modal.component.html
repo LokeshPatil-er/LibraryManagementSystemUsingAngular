@@ -1,7 +1,7 @@
 
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" ></button>
+    <h4 class="modal-title" id="modal-basic-title">Select Books</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeActiveModal()"></button>
 </div>
 <div class="modal-body">
     <form action="" #addForm="ngForm">
@@ -12,29 +12,47 @@
                     <tr >
                         <th>select</th>
                         <th>Book Id</th>
+                        <th>Book Name</th>
                         <th>Publisher</th>
                         <th>Course</th>
+                        <th>available Copies</th>
                     </tr>
                 </thead>
-                <tbody class="text-center">
-                    <tr >
+                <tbody class="text-center" >
+                    <tr *ngFor="let book of booksList">
                         <td>
-                            <input type="checkbox">
+                            <input type="checkbox" name="selectCheckBox" [checked]="isBookSelected(book.BookId)" (change)="addCheckdBookInfo(book,$event)">
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{book.BookId}}</td>
+                        <td>{{book.BookName}}</td>
+                        <td>{{book.PublisherName}}</td>
+                        <td>{{book.CourseName}}</td>
+                        <td>{{book.AvailableCount}}</td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <ngb-pagination [collectionSize]="TotalRecords" 
+                                 [(page)]="booksListFilters.PageNumber"
+                                 [pageSize]="booksListFilters.PageSize"
+                                 [boundaryLinks]="true"
+                                 [maxSize]="4"
+                                 [ellipses]="true"
+                                 (pageChange)="getBookList()"
+                                 size="md"
+                >
+                <ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+            </ngb-pagination>
+            </div>
          </div>
     </form>
     
 </div>
 <div class="modal-footer">
-    <div class="row d-grid gap-3 d-md-flex justify-content-end">
-       <button class="btn btn-sm btn-outline-success">
-            Select
+    <div class=" d-grid gap-3 d-md-flex justify-content-end">
+       <button class="btn btn-sm btn-outline-success" (click)="saveSeleted()">
+            Save
        </button>
        <button class="btn btn-sm btn-outline-danger">
             DisSelect

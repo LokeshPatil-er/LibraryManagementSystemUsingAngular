@@ -1,7 +1,7 @@
-import { BookAdd } from './book-details.model';
+import { BookDetails } from './book-details.model';
 
 describe('BookAdd', () => {
   it('should create an instance', () => {
-    expect(new BookAdd()).toBeTruthy();
+    expect(new BookDetails()).toBeTruthy();
   });
 });

@@ -1,4 +1,5 @@
 export class BookDetails {
+    BookId:number;
     BookName:string;
     Pages:number;
     Edition:string;
@@ -6,6 +7,11 @@ export class BookDetails {
     TotalCopies:number;
     PublisherId:number |null=null;
     CourseId:number | null=null;
+    PublisherName:string;
+    CourseName:string;
+    AvailableCount:number;
+    IssueQuantity:number=1;
     IsActive:boolean =true;
+  
 }
 

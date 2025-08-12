@@ -1,9 +1,10 @@
-import { Component, ViewChild ,ElementRef} from '@angular/core';
+import { Component, ViewChild ,ElementRef, Input} from '@angular/core';
 import { BooksIssueDetailsService } from './books-issue-details.service';
 import { BooksIssueDetails } from '../models/books-issue-details.model';
 import { EventEmitter } from 'stream';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BooksListAtIssueModalComponent } from '../books-list-at-issue-modal/books-list-at-issue-modal.component';
+import { BookDetails } from '../models/book-details.model';
 
 
 @Component({
@@ -15,9 +16,13 @@ export class BooksIssueDetailsComponent {
 
   membersList:any[]=[];
   memberDetails:any={};
+
+  SelectedBooksFromModal:BookDetails[]=[];
+
   @ViewChild('inputFile') InputFiles:ElementRef<HTMLInputElement>;
   booksIssueDetailsModel:BooksIssueDetails=new BooksIssueDetails();
 
+  isModalOpen=false;
   constructor(private booksIssueservice:BooksIssueDetailsService,
               private modalService:NgbModal
               ){}
@@ -56,9 +61,22 @@ export class BooksIssueDetailsComponent {
   
   openBookListModal()
   {
-      this.modalService.open(BooksListAtIssueModalComponent,{size:'lg'});
+    console.log("selected books at open "+this.SelectedBooksFromModal)
+     let booksListModalRef= this.modalService.open(BooksListAtIssueModalComponent,{size:'lg'});
+     booksListModalRef.componentInstance.selectedBooksData=[...this.SelectedBooksFromModal];//pass the copy of list not a refernce
+
+
+     booksListModalRef.result.then((selectedBooksList:BookDetails[])=>{
+      if (selectedBooksList) {
+        this.SelectedBooksFromModal = selectedBooksList;
+      }
+      }).catch(() => {});
   }
 
+  removeBookFromSelectedList(removeBookId:number)
+  {
+    this.SelectedBooksFromModal=this.SelectedBooksFromModal.filter(b=>b.BookId!==removeBookId)
+  }
   //use for get members list 
   getMembersList(){
     this.booksIssueservice.GetMembersList().subscribe((list:any)=>{
