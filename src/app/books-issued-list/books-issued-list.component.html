@@ -1,0 +1,55 @@
+
+<div class="d-grid">
+   
+    <div class="shadow p-3 mt-2" style="background-color: white;">
+        <span style="display: block;
+                    font-weight: bold;
+                    font-size: large;
+                    margin-top: 10px;
+                    margin-bottom: 15px;">
+                    Books Issued Details : 
+                </span>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-sm w-100" style="table-layout: fixed;">
+                <thead>
+                    <tr>
+                        <th>Member Id</th>
+                        <th>Member Name</th>
+                        <th>Issue Date</th>
+                        <th>Issued Books</th>
+                        <th>Support Files</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let issued of booksIssuedList ; let i = index">
+                        <td>{{issued.MemberId}}</td>
+                        <td>{{issued.MemberName}}</td>
+                        <td>{{issued.IssueDate | date:'dd-MM-yyyy'}}</td>
+                        <td class="cursor-pointer bg-light" (click)="toggleCollapse(i,'Books')" >
+                            <i class="bi" [ngClass]="{ 'bi-chevron-down': selectedBookRowIndex !== i, 'bi-chevron-up': selectedBookRowIndex === i }" style="margin-right: 8px;"> view Books</i>
+                            <ul #collapse="ngbCollapse" [ngbCollapse]="selectedBookRowIndex !== i"class="list-group mt-2 collapse-list" >
+                                <li  *ngFor="let issuedBook of issued.BookList" class="list-group-item">  {{ issuedBook.BookName }} </li>
+                            </ul>
+                        </td>
+                        <td class="cursor-pointer bg-light" (click)="toggleCollapse(i,'Files')">
+                            <i class="bi" [ngClass]="{ 'bi-chevron-down': selectedFilesRowIndex !== i, 'bi-chevron-up': selectedFilesRowIndex === i }" style="margin-right: 8px;"> view Files</i>
+                            <ul #collapse="ngbCollapse" [ngbCollapse]="selectedFilesRowIndex !== i"class="list-group mt-2 collapse-list" >
+                                <li *ngFor="let SupportFile of issued.SelectedFilesForUpload" class="list-group-item">{{SupportFile.FileName}}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            {{issued.ReturnStatus===true?"Returned":"Pending"}}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" type="button" routerLink="/BookIssueDetailsUpdate/{{issued.BookIssueId}}">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

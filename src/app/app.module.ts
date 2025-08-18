@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import{NgbAlertModule, NgbPaginationModule, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'
+import{NgbAlertModule, NgbPaginationModule, NgbModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BooksListComponent } from './books-list/books-list.component';
@@ -14,6 +14,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BookDetailsModalComponent } from './book-details-modal/book-details-modal.component';
 import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
 import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/books-list-at-issue-modal.component';
+import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.component';
 
 
 
@@ -27,7 +28,8 @@ import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/book
     BookDetailsComponent,
     BookDetailsModalComponent,
     BooksIssueDetailsComponent,
-    BooksListAtIssueModalComponent
+    BooksListAtIssueModalComponent,
+    BooksIssuedListComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/book
     NgbModule,
     NgSelectModule,
     NgbTooltipModule,
+    NgbCollapseModule ,
     ToastrModule.forRoot({
       timeOut: 3000, 
       extendedTimeOut: 1000,

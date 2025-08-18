@@ -60,6 +60,13 @@ export class BooksListAtIssueModalComponent {
    
   }
 
+
+
+  DisSelectAll()
+  {
+    this.selectedBooksData=[]
+  }
+
   saveSeleted()
   {
     this.activeModal.close(this.selectedBooksData)

@@ -5,6 +5,9 @@ import { EventEmitter } from 'stream';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BooksListAtIssueModalComponent } from '../books-list-at-issue-modal/books-list-at-issue-modal.component';
 import { BookDetails } from '../models/book-details.model';
+import { NgForm } from '@angular/forms';
+import { ToastService } from '../shared/toast.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -16,22 +19,30 @@ export class BooksIssueDetailsComponent {
 
   membersList:any[]=[];
   memberDetails:any={};
-
-  SelectedBooksFromModal:BookDetails[]=[];
+  selectedBookissueId:any;
 
   @ViewChild('inputFile') InputFiles:ElementRef<HTMLInputElement>;
   booksIssueDetailsModel:BooksIssueDetails=new BooksIssueDetails();
 
   isModalOpen=false;
+  isBookIssueUpdateMode:boolean=false;
   constructor(private booksIssueservice:BooksIssueDetailsService,
-              private modalService:NgbModal
+              private modalService:NgbModal,
+              private toastService:ToastService,
+              private router:ActivatedRoute
               ){}
 
   ngOnInit():void{
     this.getMembersList();
+    this.selectedBookissueId=this.router.snapshot.paramMap.get('bookIssueId');
+      if(this.selectedBookissueId!==null && this.selectedBookissueId!=='0')
+      {
+        this.isBookIssueUpdateMode=true;
+          this.BookIssuedDetailsById(this.selectedBookissueId)
+      }
   }
 
-
+//use to add file to SelectedFileForUpload
   onFileChange() {
     const files = this.InputFiles.nativeElement.files;
   
@@ -59,23 +70,25 @@ export class BooksIssueDetailsComponent {
     console.log(this.booksIssueDetailsModel.SelectedFilesForUpload);
   }
   
+  //use to open modal and add selected Books to SelectedBooksFromModal
   openBookListModal()
   {
-    console.log("selected books at open "+this.SelectedBooksFromModal)
+    console.log("selected books at open "+this.booksIssueDetailsModel.BookList)
      let booksListModalRef= this.modalService.open(BooksListAtIssueModalComponent,{size:'lg'});
-     booksListModalRef.componentInstance.selectedBooksData=[...this.SelectedBooksFromModal];//pass the copy of list not a refernce
+     booksListModalRef.componentInstance.selectedBooksData=[...this.booksIssueDetailsModel.BookList];//pass the copy of list not a refernce
 
 
      booksListModalRef.result.then((selectedBooksList:BookDetails[])=>{
       if (selectedBooksList) {
-        this.SelectedBooksFromModal = selectedBooksList;
+        this.booksIssueDetailsModel.BookList = selectedBooksList;
       }
       }).catch(() => {});
   }
 
+  //use for remove selected book from table
   removeBookFromSelectedList(removeBookId:number)
   {
-    this.SelectedBooksFromModal=this.SelectedBooksFromModal.filter(b=>b.BookId!==removeBookId)
+    this.booksIssueDetailsModel.BookList=this.booksIssueDetailsModel.BookList.filter(b=>b.BookId!==removeBookId)
   }
   //use for get members list 
   getMembersList(){
@@ -95,6 +108,57 @@ export class BooksIssueDetailsComponent {
           this.memberDetails=details;
         }
     })
+  }
+
+
+//use to add issue to db 
+IssueBtnClick(issueForm:NgForm)
+{
+    if(issueForm.invalid)
+    {
+      this.toastService.showErrorToast("fill all requied information",'Validation Error');
+      return;
+    }
+
+    const issueFormData=new FormData();
+
+    issueFormData.append('bookIssueDetail',JSON.stringify( this.booksIssueDetailsModel));
+    
+
+    this.booksIssueDetailsModel.SelectedFilesForUpload.forEach((file:File)=>{
+      issueFormData.append('issueSupportFile[]',file);
+    })
+
+    issueFormData.forEach((value, key) => {
+      console.log(key, value);
+    });
+
+    this.booksIssueservice.BooksIssueStored(issueFormData).subscribe((response:any)=>{
+        if(response.success)
+        {
+          this.toastService.showSuccessToast(response.message,'Issue Success')
+        }
+        else
+        {
+          this.toastService.showErrorToast(response.message,'Error')
+        }
+    })
+}
+
+//use for get single issue details with id
+BookIssuedDetailsById(issueId:number)
+  {
+    this.booksIssueservice.GetBookIssueDetailsById(issueId).subscribe((details: any) => {
+     console.log(details)
+    });
+    
+  }
+
+  //use for reset form data
+  IssueFormReset(form:NgForm)
+  {
+    this.booksIssueDetailsModel=new BooksIssueDetails();
+    form.resetForm()
   }
 
 }
