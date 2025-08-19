@@ -10,7 +10,7 @@ export class BookDetails {
     PublisherName:string;
     CourseName:string;
     AvailableCount:number;
-    IssueQuantity:number=1;
+    IssueQuantity:number;
     IsActive:boolean =true;
   
 }

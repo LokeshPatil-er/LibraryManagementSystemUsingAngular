@@ -73,7 +73,9 @@ export class BooksIssueDetailsComponent {
   //use to open modal and add selected Books to SelectedBooksFromModal
   openBookListModal()
   {
+    
     console.log("selected books at open "+this.booksIssueDetailsModel.BookList)
+
      let booksListModalRef= this.modalService.open(BooksListAtIssueModalComponent,{size:'lg'});
      booksListModalRef.componentInstance.selectedBooksData=[...this.booksIssueDetailsModel.BookList];//pass the copy of list not a refernce
 
@@ -110,7 +112,7 @@ export class BooksIssueDetailsComponent {
     })
   }
 
-
+ 
 //use to add issue to db 
 IssueBtnClick(issueForm:NgForm)
 {
@@ -149,7 +151,11 @@ IssueBtnClick(issueForm:NgForm)
 BookIssuedDetailsById(issueId:number)
   {
     this.booksIssueservice.GetBookIssueDetailsById(issueId).subscribe((details: any) => {
-     console.log(details)
+     this.booksIssueDetailsModel=details
+
+     this.booksIssueDetailsModel.IssueDate = details.IssueDate ? details.IssueDate.split('T')[0] : null;
+      this.booksIssueDetailsModel.DueDate = details.BookList[1].DueDate ? details.BookList[1].DueDate.split('T')[0] : null;
+     console.log(this.booksIssueDetailsModel)
     });
     
   }

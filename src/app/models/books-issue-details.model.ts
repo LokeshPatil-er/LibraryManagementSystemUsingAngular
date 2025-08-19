@@ -4,7 +4,7 @@ export class BooksIssueDetails {
     IssueDate:Date;
     DueDate:Date;
     MemberId:number;
-    SelectedFilesForUpload:File[]=[]
+    SelectedFilesForUpload:any[]=[]
     BookList:BookDetails[]=[]
     IsActive:boolean
     CreatedBy:number|null
@@ -13,8 +13,6 @@ export class BooksIssueDetails {
     ModifiedOn:Date|null
 
     
-  constructor() {
-    this.BookList = []; 
-  }
+ 
   
 }

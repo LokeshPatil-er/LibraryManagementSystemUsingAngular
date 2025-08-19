@@ -48,9 +48,9 @@
                         #FileUpload="ngModel"
                          ngModel
                         (change)="onFileChange()"
-                        required
+                    
                     />
-                    <small class="text-danger" *ngIf="(IssueForm.submitted || FileUpload.touched) && FileUpload.errors?.['required']">
+                    <small class="text-danger" *ngIf="(IssueForm.submitted || FileUpload.touched) &&(booksIssueDetailsModel.SelectedFilesForUpload.length===0)">
                         At least 1 support file is required
                     </small>
                    
@@ -58,7 +58,7 @@
             <div class="col-4">
                 <ul *ngIf="booksIssueDetailsModel.SelectedFilesForUpload !==null">
                     <li *ngFor="let file of booksIssueDetailsModel.SelectedFilesForUpload">
-                    {{ file.name }} ({{ file.size }} bytes)
+                    {{ file.FileName?file.FileName:file.name }} 
                     </li>
                 </ul>
             </div>
