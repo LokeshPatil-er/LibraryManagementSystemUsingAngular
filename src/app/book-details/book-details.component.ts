@@ -6,6 +6,8 @@ import { ToastService } from '../shared/toast.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Location} from '@angular/common'
+import { SpinnerService } from '../shared/spinner.service';
+import { hide } from '@popperjs/core';
 
 @Component({
   selector: 'app-books-details',
@@ -13,21 +15,28 @@ import {Location} from '@angular/common'
   styleUrl: './book-details.component.css'
 })
 export class BookDetailsComponent {
-    constructor(private router:ActivatedRoute,
+    constructor(private activeRouter:ActivatedRoute,
                 private booksListService:BooksListService,
                 private bookDetailsService:BookDetailsService,
                 private toastService:ToastService,
-                private location:Location){}
+                private location:Location,
+              private spinner:SpinnerService){}
 
     ngOnInit():void{
+
+
+      this.spinner.spinnerShow();
+
       this.GetPublishersAndCourses();
 
-      this.selectBookId=this.router.snapshot.paramMap.get('bookId');
+      this.selectBookId=this.activeRouter.snapshot.paramMap.get('bookId');
       if(this.selectBookId!==null && this.selectBookId!=='0')
       {
         this.isUpdateMode=true;
           this.loadBookDetail(this.selectBookId)
       }
+
+      this.spinner.spinnerHide();
     }
 
     PublishersListAtAddBook:any;
@@ -41,6 +50,9 @@ export class BookDetailsComponent {
 
 
     callAddBookApi(form:NgForm){
+
+      this.spinner.spinnerShow();
+
       if(form.invalid)
         {
           this.toastService.showErrorToast("Fill all required information and in correct format",'validation')
@@ -61,6 +73,7 @@ export class BookDetailsComponent {
           }
         })
    
+        this.spinner.spinnerHide();
     }
 
     //use for get publisher and course list from api

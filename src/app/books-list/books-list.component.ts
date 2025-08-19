@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookDetailsModalComponent } from '../book-details-modal/book-details-modal.component';
 import { ToastService } from '../shared/toast.service';
+import { SpinnerService } from '../shared/spinner.service';
 
 
 @Component({
@@ -27,9 +28,12 @@ export class BooksListComponent {
     constructor(private booksListServices:BooksListService,
                 private toastService:ToastService,
                 private modalService:NgbModal,
+                private spinner:SpinnerService
                ){}
 
     ngOnInit():void{
+
+    
     
       this.PublishersAndCourseListGet();
 
@@ -41,6 +45,8 @@ export class BooksListComponent {
       }
       
       this.BooksList();
+
+    
     }
   
     
@@ -92,12 +98,14 @@ export class BooksListComponent {
 
   //use for refresh booklist after modal opertion complet or cancel
   refreshBookList(modalInstance:any){
+    this.spinner.spinnerShow()
 
     modalInstance.result.then((result:any)=>{
       if(result==='refresh')
         this.BooksList()
       
      })
+     this.spinner.spinnerHide();
   }
 
 
@@ -141,7 +149,8 @@ export class BooksListComponent {
   //use for get bookslist and also fiterted books list from api
     BooksList(){
      // this.BooksListServices.filterParameter=this.inputFilterData();
-    
+    this.spinner.spinnerShow()
+
      this.saveSearchAppliedFilter()
       this.booksListServices.BookListGet(this.filterParameter).subscribe((data:any)=>{
 
@@ -158,6 +167,8 @@ export class BooksListComponent {
        
        
       })
+
+      this.spinner.spinnerHide();
       
     }
 
@@ -172,13 +183,23 @@ export class BooksListComponent {
     }
 
     deleteBook(bookId:number,bookName:string){
+
+      this.spinner.spinnerShow();
+
         if(bookId===0 || bookId===null)
         {
+          this.spinner.spinnerHide();
+
           this.toastService.showErrorToast("Book delete failed..Try again",'Id Error')
           return;
         }
         
-        if(!confirm(`Are you sure to delete "${bookName}" book`)) return;
+        if(!confirm(`Are you sure to delete "${bookName}" book`))
+          {
+            this.spinner.spinnerHide();
+            return;
+          }
+            
 
         this.booksListServices.DeleteBookApi(bookId).subscribe((result:any)=>{
           if(result.success){
@@ -188,5 +209,7 @@ export class BooksListComponent {
           else
             this.toastService.showErrorToast(result.message,'Delete failed')
         })
+
+        this.spinner.spinnerHide();
     }
 }

@@ -7,7 +7,8 @@ import { BooksListAtIssueModalComponent } from '../books-list-at-issue-modal/boo
 import { BookDetails } from '../models/book-details.model';
 import { NgForm } from '@angular/forms';
 import { ToastService } from '../shared/toast.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SpinnerService } from '../shared/spinner.service';
 
 
 @Component({
@@ -29,21 +30,29 @@ export class BooksIssueDetailsComponent {
   constructor(private booksIssueservice:BooksIssueDetailsService,
               private modalService:NgbModal,
               private toastService:ToastService,
-              private router:ActivatedRoute
+              private activeRouter:ActivatedRoute,
+              private router :Router,
+              private spinner:SpinnerService
               ){}
 
   ngOnInit():void{
+    this.spinner.spinnerShow();
+
     this.getMembersList();
-    this.selectedBookissueId=this.router.snapshot.paramMap.get('bookIssueId');
+    this.selectedBookissueId=this.activeRouter.snapshot.paramMap.get('bookIssueId');
       if(this.selectedBookissueId!==null && this.selectedBookissueId!=='0')
       {
         this.isBookIssueUpdateMode=true;
           this.BookIssuedDetailsById(this.selectedBookissueId)
       }
+
+      this.spinner.spinnerHide();
   }
 
 //use to add file to SelectedFileForUpload
   onFileChange() {
+    this.spinner.spinnerShow()
+
     const files = this.InputFiles.nativeElement.files;
   
     if (files && files.length > 0) {
@@ -67,9 +76,16 @@ export class BooksIssueDetailsComponent {
       }
     }
   
+    this.spinner.spinnerHide();
+
     console.log(this.booksIssueDetailsModel.SelectedFilesForUpload);
   }
   
+  //use for remove selected book from table
+  removeFileFromSelected(name:string,fileName:string)
+  {
+    this.booksIssueDetailsModel.SelectedFilesForUpload=this.booksIssueDetailsModel.SelectedFilesForUpload.filter(b=>b.name!==name || b.FileName!==fileName)
+  }
   //use to open modal and add selected Books to SelectedBooksFromModal
   openBookListModal()
   {
@@ -113,11 +129,15 @@ export class BooksIssueDetailsComponent {
   }
 
  
-//use to add issue to db 
-IssueBtnClick(issueForm:NgForm)
+//use to add or update issue realted details to db 
+BooksIssueDetailsStored(issueForm:NgForm)
 {
+  this.spinner.spinnerShow()
+
     if(issueForm.invalid)
     {
+      this.spinner.spinnerHide();
+
       this.toastService.showErrorToast("fill all requied information",'Validation Error');
       return;
     }
@@ -139,12 +159,15 @@ IssueBtnClick(issueForm:NgForm)
         if(response.success)
         {
           this.toastService.showSuccessToast(response.message,'Issue Success')
+          this.IssueFormReset(issueForm)
         }
         else
         {
           this.toastService.showErrorToast(response.message,'Error')
         }
     })
+
+    this.spinner.spinnerHide();
 }
 
 //use for get single issue details with id
@@ -153,18 +176,59 @@ BookIssuedDetailsById(issueId:number)
     this.booksIssueservice.GetBookIssueDetailsById(issueId).subscribe((details: any) => {
      this.booksIssueDetailsModel=details
 
-     this.booksIssueDetailsModel.IssueDate = details.IssueDate ? details.IssueDate.split('T')[0] : null;
-      this.booksIssueDetailsModel.DueDate = details.BookList[1].DueDate ? details.BookList[1].DueDate.split('T')[0] : null;
+    //  this.booksIssueDetailsModel.IssueDate = details.IssueDate ? details.IssueDate.split('T')[0] : null;
+    //   this.booksIssueDetailsModel.DueDate = details.BookList[1].DueDate ? details.BookList[1].DueDate.split('T')[0] : null;
+
+
+    this.booksIssueDetailsModel.IssueDate = details.IssueDate 
+    ? details.IssueDate.split('T')[0] 
+    : null;
+
+   this.booksIssueDetailsModel.DueDate = details.BookList[0].DueDate 
+    ? details.BookList[0].DueDate.split('T')[0] 
+    : null;
+
+    if(this.booksIssueDetailsModel.MemberId){
+      this.getMemberDetailsById();
+    }
      console.log(this.booksIssueDetailsModel)
     });
     
   }
 
+
+  //use for uploaded file download
+  DownloadUploadedFile(filePath:string,fileName:string,bookIssueId:string)
+  {
+    this.spinner.spinnerShow();
+
+    this.booksIssueservice.DownloadFile(filePath,bookIssueId).subscribe(blob=>{
+      console.log(blob);
+      const fileUrl=window.URL.createObjectURL(blob);
+      const aTag=document.createElement('a');
+      aTag.href=fileUrl
+      aTag.download=fileName
+      aTag.click();
+      window.URL.revokeObjectURL(fileUrl);
+    })
+
+    this.spinner.spinnerHide();
+  }
+
   //use for reset form data
   IssueFormReset(form:NgForm)
   {
+    this.spinner.spinnerShow();
+
     this.booksIssueDetailsModel=new BooksIssueDetails();
     form.resetForm()
+    if(this.isBookIssueUpdateMode)
+    {
+      this.router.navigate(['/BooksIssuedList'])
+    }
+
+    this.spinner.spinnerHide();
+      
   }
 
 }

@@ -44,5 +44,15 @@ export class BooksIssueDetailsService {
     return this.httpclient.post<any>(this.baseUrl+"BooksIssue/BooksIssueDetailsStore",booksIssueDetails);
   }
 
+  //api call for dowanload file blob
+  DownloadFile(filePath:string,bookIssueId:string)
+  {
+
+    let params=new HttpParams()
+    .set('filePath',filePath)
+    .set('BookIssueId',bookIssueId)
+
+   return this.httpclient.get(this.baseUrl+"BooksIssue/DownloadFile",{params,responseType:'blob'});
+  }
   
 }

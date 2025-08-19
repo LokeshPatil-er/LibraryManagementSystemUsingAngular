@@ -15,6 +15,8 @@ import { BookDetailsModalComponent } from './book-details-modal/book-details-mod
 import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
 import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/books-list-at-issue-modal.component';
 import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -29,7 +31,8 @@ import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.
     BookDetailsModalComponent,
     BooksIssueDetailsComponent,
     BooksListAtIssueModalComponent,
-    BooksIssuedListComponent
+    BooksIssuedListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.
     NgbModule,
     NgSelectModule,
     NgbTooltipModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     NgbCollapseModule ,
     ToastrModule.forRoot({
       timeOut: 3000, 

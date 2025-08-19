@@ -4,6 +4,7 @@ import { BooksIssueDetailsService } from '../books-issue-details/books-issue-det
 import { BooksListFilter } from '../models/books-list-filter.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookDetails } from '../models/book-details.model';
+import { SpinnerService } from '../shared/spinner.service';
 
 @Component({
   selector: 'app-books-list-at-issue-modal',
@@ -23,7 +24,8 @@ export class BooksListAtIssueModalComponent {
   booksListFilters:BooksListFilter=new BooksListFilter();
 
   constructor(private booksListService:BooksListService,
-              private activeModal:NgbActiveModal
+              private activeModal:NgbActiveModal,
+              private spinner:SpinnerService
   ){}
 
   ngOnInit():void{
@@ -32,6 +34,8 @@ export class BooksListAtIssueModalComponent {
 
   getBookList()
   {
+    this.spinner.spinnerShow()
+
     this.booksListService.BookListGet(this.booksListFilters).subscribe((list:any)=>{
       if(list!==null )
       {
@@ -42,6 +46,8 @@ export class BooksListAtIssueModalComponent {
       }
 
     })
+
+    this.spinner.spinnerHide();
   }
 
   isBookSelected(bookId:number):boolean
@@ -64,12 +70,20 @@ export class BooksListAtIssueModalComponent {
 
   DisSelectAll()
   {
+    this.spinner.spinnerShow()
+
     this.selectedBooksData=[]
+
+    this.spinner.spinnerHide();
   }
 
   saveSeleted()
   {
+    this.spinner.spinnerShow()
+
     this.activeModal.close(this.selectedBooksData)
+
+    this.spinner.spinnerHide();
   }
 
   closeActiveModal(){

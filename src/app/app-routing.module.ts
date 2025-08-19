@@ -6,9 +6,11 @@ import { HomeComponent } from './home/home.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
 import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path:"",component:HomeComponent},
+  {path:"login",component:LoginComponent},
   {path:"BooksList",component:BooksListComponent},
   {path:"BooksAdd",component:BookDetailsComponent},
   {path:"BookDetailsUpdate/:bookId",component:BookDetailsComponent},

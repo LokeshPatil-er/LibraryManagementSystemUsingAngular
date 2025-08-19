@@ -6,6 +6,7 @@ import { BookDetailsService } from '../book-details/book-details.service';
 import { BooksListService } from '../books-list/books-list.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SpinnerService } from '../shared/spinner.service';
 
 @Component({
   selector: 'app-book-details-modal',
@@ -19,7 +20,8 @@ export class BookDetailsModalComponent {
               private toastService:ToastService,
               private bookDetailsService:BookDetailsService,
               private booksListService:BooksListService,
-              private router:ActivatedRoute
+              private router:ActivatedRoute,
+              private spinner:SpinnerService
   ){}
 
 
@@ -33,18 +35,25 @@ export class BookDetailsModalComponent {
   bookDetails:BookDetails=new BookDetails();
 
   ngOnInit():void{
+    this.spinner.spinnerShow();
+
     this.GetPublishersAndCoursesForModal()
     
     if(this.selectedBookId!==null && this.selectedBookId!=='0')
     {
         this.loadBookDetail(this.selectedBookId)
     }
+
+    this.spinner.spinnerHide()
   }
 
   BookDetailsSaveUsingModal(form:NgForm){
+    this.spinner.spinnerShow();
         if(form.invalid)
           {
+            this.spinner.spinnerHide();
             this.toastService.showErrorToast("Fill all required information and in correct format",'validation')
+
             return;
           }
   
@@ -60,8 +69,10 @@ export class BookDetailsModalComponent {
           else{
             this.toastService.showErrorToast(data.message,"Error")
           }
+          
         })
      
+        this.spinner.spinnerHide();
       }
   
       GetPublishersAndCoursesForModal(){
@@ -76,6 +87,7 @@ export class BookDetailsModalComponent {
     loadBookDetail(bookId:number){
       this.bookDetailsService.GetBookDetailById(bookId).subscribe((bookDetails:any)=>{
         this.bookDetails=bookDetails;
+        
       })
   }
 

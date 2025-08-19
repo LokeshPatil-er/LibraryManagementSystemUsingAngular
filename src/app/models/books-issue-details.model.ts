@@ -1,6 +1,7 @@
 import { BookDetails } from "./book-details.model";
 
 export class BooksIssueDetails {
+    BookIssueId:number;
     IssueDate:Date;
     DueDate:Date;
     MemberId:number;

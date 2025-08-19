@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BooksIssuedListService } from './books-issued-list.service';
+import { SpinnerService } from '../shared/spinner.service';
 
 @Component({
   selector: 'app-books-issued-list',
@@ -16,9 +17,11 @@ export class BooksIssuedListComponent {
 
 
 
-  constructor(private booksIssueListService:BooksIssuedListService){}
+  constructor(private booksIssueListService:BooksIssuedListService,private spinner:SpinnerService){}
   ngOnInit():void{
+    this.spinner.spinnerShow();
     this.BooksIssuedList();
+    this.spinner.spinnerHide();
   }
 
   toggleCollapse(index: number,columnName:string) {
