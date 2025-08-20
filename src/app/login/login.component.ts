@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+
+  Email:string;
+  Password:string;
+  isRemeberMe:boolean
+
+   showPassword: boolean = false;
+
+  
+
+  constructor(){}
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 }
