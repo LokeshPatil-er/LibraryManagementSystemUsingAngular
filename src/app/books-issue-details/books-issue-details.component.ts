@@ -120,12 +120,20 @@ export class BooksIssueDetailsComponent {
 
   //use for to get member and there contact details  based on id 
   getMemberDetailsById(){
-    this.booksIssueservice.GetMemberDetailsById(this.booksIssueDetailsModel.MemberId).subscribe((details:any)=>{
-        if(details!==null)
-        {
-          this.memberDetails=details;
-        }
-    })
+
+    const member = this.membersList.find((m:any) => m.MemberId === this.booksIssueDetailsModel.MemberId);
+
+    if (member) {
+      this.memberDetails.MobileNo = member.MobileNo;
+    }
+    
+
+    // this.booksIssueservice.GetMemberDetailsById(this.booksIssueDetailsModel.MemberId).subscribe((details:any)=>{
+    //     if(details!==null)
+    //     {
+    //       this.memberDetails=details;
+    //     }
+    // })
   }
 
  
@@ -180,13 +188,13 @@ BookIssuedDetailsById(issueId:number)
     //   this.booksIssueDetailsModel.DueDate = details.BookList[1].DueDate ? details.BookList[1].DueDate.split('T')[0] : null;
 
 
-    this.booksIssueDetailsModel.IssueDate = details.IssueDate 
-    ? details.IssueDate.split('T')[0] 
-    : null;
+    // this.booksIssueDetailsModel.IssueDate = details.IssueDate 
+    // ? details.IssueDate.split('T')[0] 
+    // : null;
 
-   this.booksIssueDetailsModel.DueDate = details.BookList[0].DueDate 
-    ? details.BookList[0].DueDate.split('T')[0] 
-    : null;
+  //  this.booksIssueDetailsModel.DueDate = details.BookList[0].DueDate 
+  //   ? details.BookList[0].DueDate.split('T')[0] 
+  //   : null;
 
     if(this.booksIssueDetailsModel.MemberId){
       this.getMemberDetailsById();

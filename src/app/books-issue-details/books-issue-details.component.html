@@ -18,13 +18,19 @@
             <div class="col">
 
                 <label for="">Issue Date :</label>
-                <input [(ngModel)]="booksIssueDetailsModel.IssueDate" name="issueDate" #IssueDate="ngModel" class="form-control mt-2" type="date"  required>
+                <input 
+                    [ngModel]="booksIssueDetailsModel.IssueDate | date:'yyyy-MM-dd'" 
+                    (ngModelChange)="booksIssueDetailsModel.IssueDate = $event"  
+                    name="issueDate" #IssueDate="ngModel" class="form-control mt-2" type="date"  required>
                 <small class="text-danger" *ngIf="(IssueDate.touched || IssueForm.submitted) && IssueDate.errors?.['required']">Issue Date select is required</small>
             </div>
             <div class="col">
 
                 <label for="">Due Date :</label>
-                <input [(ngModel)]="booksIssueDetailsModel.DueDate" name="dueDate" #DueDate="ngModel" class="form-control mt-2" type="date" required>
+                <input 
+                [ngModel]="booksIssueDetailsModel.DueDate | date:'yyyy-MM-dd'" 
+                (ngModelChange)="booksIssueDetailsModel.DueDate = $event"
+                name="dueDate" #DueDate="ngModel" class="form-control mt-2" type="date" required>
                 <small class="text-danger" *ngIf="(IssueForm.submitted || DueDate.touched) && DueDate.errors?.['required']">Due Date select is required</small>
             </div>
 

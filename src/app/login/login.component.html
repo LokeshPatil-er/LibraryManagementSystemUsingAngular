@@ -3,38 +3,60 @@
     <div class="card-body p-4">
       <h3 class="text-center mb-4 text-primary">Login</h3>
       
-      <form>
+      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+       
         <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input type="email" [(ngModel)]="Email" name="inputEmail" class="form-control" id="email" placeholder="Enter your email" required>
+          <label for="email" class="form-label labelStyle">Email address</label>
+          <input 
+            type="email" 
+            [(ngModel)]="loginCredential.Email" 
+            name="inputEmail" 
+            #email="ngModel" 
+            class="form-control" 
+            id="email" 
+            placeholder="Enter your email"  
+            pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"  
+            required
+          >
           <div id="emailHelp" class="form-text">We'll never share your email.</div>
+          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['required']">Email is required..</small>
+          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['pattern']">Incorrect email formate..</small>
         </div>
         
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label labelStyle">Password</label>
           <div class="input-group">
             <input 
               [type]="showPassword ? 'text' : 'password'" 
-              [(ngModel)]="Password" 
+              [(ngModel)]="loginCredential.Password" 
               name="inputPassword" 
+              #password="ngModel"
               class="form-control" 
               id="password" 
               placeholder="Enter your password" 
+            
               required
             >
             <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
               <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
             </button>
           </div>
-        </div>
 
+          <small class="text-danger" *ngIf="(loginForm.submitted || password.touched)&& password.errors?.['required']">
+            Password is required..
+          </small>
+
+          <!--
+           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$" 
+          <small class="text-danger" *ngIf="password.touched && password.errors?.['pattern']">
+            Password must be at most 8 characters with (Upper case,Lower case and Digit).
+          </small> -->
+
+         </div>
         
-        <div class="mb-3 form-check">
-          <input type="checkbox" [(ngModel)]="isRemeberMe" name="RememberMe" class="form-check-input" id="rememberMe">
-          <label class="form-check-label" for="rememberMe">Remember me</label>
-        </div>
-        
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <button type="submit"  [disabled]="loginAttemt <= 0 || loginForm.invalid" class="btn btn-primary w-100">Login</button>
+        <small class="text-danger mt-2" *ngIf="!(loginAttemt===0)" ><span *ngIf="loginAttemt < 3"> You have {{loginAttemt}} attempt remaining</span> </small>
+        <small class="text-danger mt-2" *ngIf="loginAttemt===0" >login after {{timeRemainingToLogin}} second with correct login credentials</small>
       </form>
 
      
