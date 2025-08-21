@@ -4,7 +4,7 @@ import{NgbAlertModule, NgbPaginationModule, NgbModule, NgbTooltipModule, NgbColl
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BooksListComponent } from './books-list/books-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { BookDetailsComponent } from './book-details/book-details.component';
@@ -17,6 +17,7 @@ import { BooksListAtIssueModalComponent } from './books-list-at-issue-modal/book
 import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoginComponent } from './login/login.component';
+import { authInterceptor } from './shared/auth.interceptor';
 
 
 
@@ -59,7 +60,8 @@ import { LoginComponent } from './login/login.component';
 
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withInterceptors([authInterceptor]))
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,14 @@ import { ToastService } from '../shared/toast.service';
 import { SpinnerService } from '../shared/spinner.service';
 import { NgForm } from '@angular/forms';
 import { LoginService } from './login.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+
+
+export interface Users {
+  Email: string;
+  Password: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -11,10 +19,11 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent {
 
-  loginCredential={
-    Email:'',
-    Password:''
-  };
+ 
+loginCredential: Users = {
+  Email: '',
+  Password: ''
+};
 
   showPassword: boolean = false;
   loginAttemt:number=3;
@@ -23,7 +32,9 @@ export class LoginComponent {
 
   constructor(private toast:ToastService,
               private spinner:SpinnerService,
-              private loginService:LoginService
+              private loginService:LoginService,
+              private router:Router,
+              private authService:AuthService
   ){}
 
   
@@ -41,6 +52,11 @@ export class LoginComponent {
 
     this.loginService.LoginVerify(this.loginCredential).subscribe((response:any)=>{
       console.log(response)
+     
+       this.authService.setAuthData(response.jwtToken,response.UserId);
+         
+        this.router.navigate(['/BooksList'])
+        this.toast.showSuccessToast(`Welcome back ${response.Name}`,"Login Success")
     })
 
     this.loginAttemt--;

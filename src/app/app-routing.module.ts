@@ -7,16 +7,17 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { BooksIssueDetailsComponent } from './books-issue-details/books-issue-details.component';
 import { BooksIssuedListComponent } from './books-issued-list/books-issued-list.component';
 import { LoginComponent } from './login/login.component';
+import { authGuard } from './shared/auth.guard';
 
 const routes: Routes = [
   {path:"",component:HomeComponent},
   {path:"login",component:LoginComponent},
-  {path:"BooksList",component:BooksListComponent},
-  {path:"BooksAdd",component:BookDetailsComponent},
-  {path:"BookDetailsUpdate/:bookId",component:BookDetailsComponent},
-  {path:"BooksIssueDetailsAdd",component:BooksIssueDetailsComponent},
-  {path:"BookIssueDetailsUpdate/:bookIssueId",component:BooksIssueDetailsComponent},
-  {path:"BooksIssuedList",component:BooksIssuedListComponent}
+  {path:"BooksList",component:BooksListComponent,canActivate:[authGuard]},
+  {path:"BooksAdd",component:BookDetailsComponent,canActivate:[authGuard]},
+  {path:"BookDetailsUpdate/:bookId",component:BookDetailsComponent,canActivate:[authGuard]},
+  {path:"BooksIssueDetailsAdd",component:BooksIssueDetailsComponent,canActivate:[authGuard]},
+  {path:"BookIssueDetailsUpdate/:bookIssueId",component:BooksIssueDetailsComponent,canActivate:[authGuard]},
+  {path:"BooksIssuedList",component:BooksIssuedListComponent,canActivate:[authGuard]}
 ];
 
 @NgModule({

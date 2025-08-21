@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastService } from './shared/toast.service';
+import { AuthService } from './shared/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +11,18 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'LibrarySystemUsingAngular';
 
+
+  constructor(private router:Router,
+              private toast:ToastService,
+              public authSevice:AuthService
+  ){}
+
   
+
+  logOutBtnClick()
+  {
+    
+     this.authSevice.logout()
+    
+  }
 }

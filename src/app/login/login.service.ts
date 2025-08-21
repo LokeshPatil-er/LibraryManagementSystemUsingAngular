@@ -15,7 +15,8 @@ export class LoginService {
   {
 
     let params=new HttpParams()
-    .set("users",loginCredendial)
+    .set("Email",loginCredendial.Email)
+    .set("Password",loginCredendial.Password)
 
     return this.httpClient.get(this.baseUrl+"Account/Login",{params})
   }
