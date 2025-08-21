@@ -49,6 +49,21 @@ export class BooksListComponent {
     
     }
   
+    ExportTableData(){
+       const table=document.getElementById("bookListTable");
+       const tableHtml=table?.outerHTML || '';
+
+       const tableBlob=new Blob(['\ufeff',tableHtml],{type:'application/vnd.ms-excel'})
+
+       const url=URL.createObjectURL(tableBlob);
+
+       const link=document.createElement('a')
+
+       link.href=url;
+
+       link.download="Book-List.xls"
+       link.click();
+    }
     
     ResetBtnClick(){
      this.filterParameter=new BooksListFilter();
