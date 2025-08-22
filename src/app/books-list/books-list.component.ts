@@ -6,6 +6,22 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookDetailsModalComponent } from '../book-details-modal/book-details-modal.component';
 import { ToastService } from '../shared/toast.service';
 import { SpinnerService } from '../shared/spinner.service';
+import { ExportFileService } from '../shared/export-file.service';
+
+export const ListColumnHeaders = [
+  { key: 'BookId', value: 'Book Id',sort:true },
+  { key: 'BookName', value: 'Book Name',sort:true },
+  { key: 'Publisher', value: 'Publisher',sort:true },
+  { key: 'Course', value: 'Course',sort:true },
+  { key: 'Pages', value: 'Pages',sort:true },
+  { key: 'Edition', value: 'Edition',sort:true },
+  { key: 'EditionYear', value: 'Edition Year',sort:true },
+  { key: 'TotalCopies', value: 'Total Copies',sort:true },
+  { key: 'AvailableCount', value: 'Available Count',sort:true },
+  { key: 'LostCount', value: 'Lost Count' },
+  { key: 'DamageCount', value: 'Damage Count',sort:true },
+  { key: 'IsActive', value: 'Active',sort:true }
+];
 
 
 @Component({
@@ -25,10 +41,13 @@ export class BooksListComponent {
 
     filterParameter:BooksListFilter=new BooksListFilter();
 
+    columnHeader=ListColumnHeaders
+
     constructor(private booksListServices:BooksListService,
                 private toastService:ToastService,
                 private modalService:NgbModal,
-                private spinner:SpinnerService
+                private spinner:SpinnerService,
+                protected exportFileService:ExportFileService
                ){}
 
     ngOnInit():void{
@@ -49,20 +68,27 @@ export class BooksListComponent {
     
     }
   
-    ExportTableData(){
-       const table=document.getElementById("bookListTable");
-       const tableHtml=table?.outerHTML || '';
+    ExportTableData(exportType:string){
 
-       const tableBlob=new Blob(['\ufeff',tableHtml],{type:'application/vnd.ms-excel'})
 
-       const url=URL.createObjectURL(tableBlob);
+    
+      //this.exportFileService.exportToExcel("Book-list",this.BookList,this.columnHeader)
+     // this.exportFileService.exportToCSV("Book-list",this.BookList,this.columnHeader)
+     this.exportFileService.exportToPdf("Book-list",this.BookList,this.columnHeader)
 
-       const link=document.createElement('a')
+      //  const table=document.getElementById("bookListTable");
+      //  const tableHtml=table?.outerHTML || '';
 
-       link.href=url;
+      //  const tableBlob=new Blob(['\ufeff',tableHtml],{type:'application/vnd.ms-excel'})
 
-       link.download="Book-List.xls"
-       link.click();
+      //  const url=URL.createObjectURL(tableBlob);
+
+      //  const link=document.createElement('a')
+
+      //  link.href=url;
+
+      //  link.download="Book-List.xls"
+      //  link.click();
     }
     
     ResetBtnClick(){

@@ -57,8 +57,18 @@
             <i class="bi bi-plus-circle-fill"></i>
         </button>
         <button class="btn btn-sm btn-primary m-2 " (click)="newBookAddBtnClick('add')">+ New Book Add</button>
-         <button class="btn btn-sm btn-success m-2" (click)="ExportTableData()">Export</button>
-
+         <!-- <button class="btn btn-sm btn-success m-2" (click)="ExportTableData()">Export</button> -->
+        
+          <div ngbDropdown >
+            <button type="button" class="btn btn-sm m-2 btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+              Export
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="exportFileService.exportToPdf('BookList',BookList,columnHeader)">PDF</button>
+              <button ngbDropdownItem (click)="exportFileService.exportToCSV('BookList',BookList,columnHeader)">CSV</button>
+              <button ngbDropdownItem (click)="exportFileService.exportToExcel('BookList',BookList,columnHeader)">Excel</button>
+            </div>
+          </div>
         </div>
             
         
@@ -68,7 +78,25 @@
       <table class="table table-bordered table-striped " id="bookListTable">
         <thead >
             <tr class="">
-                <th scope="col">
+
+              <th scope="col" *ngFor="let column of columnHeader ">
+                <span>{{column.value}}</span> 
+                <button *ngIf="column.sort" class="btn btn-link p-0"
+                      [ngClass]="{
+                        'active-sort': filterParameter.ColumnNameForSort === column.key,
+                        'rotate-up': filterParameter.ColumnNameForSort === column.key && filterParameter.sortOrderForColumn === 'ASC',
+                        'rotate-down': filterParameter.ColumnNameForSort === column.key && filterParameter.sortOrderForColumn === 'DESC'
+                      }"
+                      (click)="sortData(column.key)"
+                      placement="bottom"
+                      [ngbTooltip]="getSortHint(column.key)">
+                      >
+                <span>▲</span>
+              </button>
+
+            </th>
+
+                <!-- <th scope="col">
                     <span>Book Id</span> 
                     <button class="btn btn-link p-0"
                           [ngClass]="{
@@ -237,7 +265,7 @@
               
                 <th scope="col">
                     <span>Status</span> 
-                </th>
+                </th> -->
               
                 <th scope="col">
                   <span>Action</span>

@@ -17,8 +17,8 @@ export const authGuard: CanActivateFn = (route, state) => {
 
    if(!token)
    {
-     router.navigate(['/login'])
-     toast.showErrorToast("Session is expired ..please login","Session Expired");
+   //  toast.showErrorToast("Session is expired ..please login","Session Expired");
+      router.navigate(['/login']);
      return false;
    }
 
