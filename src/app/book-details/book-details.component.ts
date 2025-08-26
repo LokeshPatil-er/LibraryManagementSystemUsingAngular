@@ -20,13 +20,12 @@ export class BookDetailsComponent {
                 private bookDetailsService:BookDetailsService,
                 private toastService:ToastService,
                 private location:Location,
-              private spinner:SpinnerService){}
+             ){}
 
     ngOnInit():void{
 
 
-      this.spinner.spinnerShow();
-
+     
       this.GetPublishersAndCourses();
 
       this.selectBookId=this.activeRouter.snapshot.paramMap.get('bookId');
@@ -36,7 +35,7 @@ export class BookDetailsComponent {
           this.loadBookDetail(this.selectBookId)
       }
 
-      this.spinner.spinnerHide();
+     
     }
 
     PublishersListAtAddBook:any;
@@ -51,7 +50,7 @@ export class BookDetailsComponent {
 
     callAddBookApi(form:NgForm){
 
-      this.spinner.spinnerShow();
+     
 
       if(form.invalid)
         {
@@ -73,7 +72,7 @@ export class BookDetailsComponent {
           }
         })
    
-        this.spinner.spinnerHide();
+       
     }
 
     //use for get publisher and course list from api

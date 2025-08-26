@@ -1,0 +1,28 @@
+{
+    "login": {
+      "title": "Login",
+      "email.label": "Email address",
+      "email.placeholder": "Enter your email",
+      "email.help": "**We'll never share your email.",
+      "email.required": "Email is required.",
+      "email.pattern": "Incorrect email format.",
+      
+      "password.label": "Password",
+      "password.placeholder": "Enter your password",
+      "password.required": "Password is required.",
+      "password.pattern": "Password must be 8-15 characters with uppercase, lowercase, digit, and special character.",
+      
+      "button.login": "Login",
+      "attempt.remaining": "You have {{count}} attempt(s) remaining",
+      "attempt.locked": "Login after {{seconds}} seconds with correct login credentials",
+  
+      "button.en": "English",
+      "button.mr": "Marathi"
+    },
+    "navbar": {
+      "brand": "Library System",
+      "button.login":"Login",
+      "button.logOut":"LogOut"
+    }
+  }
+  

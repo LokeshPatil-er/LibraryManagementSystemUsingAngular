@@ -17,11 +17,11 @@ export class BooksIssuedListComponent {
 
 
 
-  constructor(private booksIssueListService:BooksIssuedListService,private spinner:SpinnerService){}
+  constructor(private booksIssueListService:BooksIssuedListService){}
   ngOnInit():void{
-    this.spinner.spinnerShow();
+   
     this.BooksIssuedList();
-    this.spinner.spinnerHide();
+  
   }
 
   toggleCollapse(index: number,columnName:string) {

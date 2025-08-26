@@ -46,7 +46,7 @@ export class BooksListComponent {
     constructor(private booksListServices:BooksListService,
                 private toastService:ToastService,
                 private modalService:NgbModal,
-                private spinner:SpinnerService,
+          
                 protected exportFileService:ExportFileService
                ){}
 
@@ -139,14 +139,14 @@ export class BooksListComponent {
 
   //use for refresh booklist after modal opertion complet or cancel
   refreshBookList(modalInstance:any){
-    this.spinner.spinnerShow()
+  
 
     modalInstance.result.then((result:any)=>{
       if(result==='refresh')
         this.BooksList()
       
      })
-     this.spinner.spinnerHide();
+    
   }
 
 
@@ -190,7 +190,7 @@ export class BooksListComponent {
   //use for get bookslist and also fiterted books list from api
     BooksList(){
      // this.BooksListServices.filterParameter=this.inputFilterData();
-    this.spinner.spinnerShow()
+ 
 
      this.saveSearchAppliedFilter()
       this.booksListServices.BookListGet(this.filterParameter).subscribe((data:any)=>{
@@ -209,7 +209,7 @@ export class BooksListComponent {
        
       })
 
-      this.spinner.spinnerHide();
+     
       
     }
 
@@ -225,11 +225,11 @@ export class BooksListComponent {
 
     deleteBook(bookId:number,bookName:string){
 
-      this.spinner.spinnerShow();
+     
 
         if(bookId===0 || bookId===null)
         {
-          this.spinner.spinnerHide();
+         
 
           this.toastService.showErrorToast("Book delete failed..Try again",'Id Error')
           return;
@@ -237,7 +237,7 @@ export class BooksListComponent {
         
         if(!confirm(`Are you sure to delete "${bookName}" book`))
           {
-            this.spinner.spinnerHide();
+           
             return;
           }
             
@@ -251,6 +251,6 @@ export class BooksListComponent {
             this.toastService.showErrorToast(result.message,'Delete failed')
         })
 
-        this.spinner.spinnerHide();
+       
     }
 }

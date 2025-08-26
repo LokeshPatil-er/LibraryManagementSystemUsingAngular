@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 export interface Users {
@@ -34,7 +35,8 @@ loginCredential: Users = {
               private spinner:SpinnerService,
               private loginService:LoginService,
               private router:Router,
-              private authService:AuthService
+              private authService:AuthService,
+              public translate:TranslateService
   ){}
 
   

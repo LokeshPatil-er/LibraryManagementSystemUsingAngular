@@ -1,0 +1,28 @@
+{
+    "login": {
+      "title": "प्रवेश",
+      "email.label": "ईमेल पत्ता",
+      "email.placeholder": "तुमचा ईमेल लिहा",
+      "email.help": "**आम्ही तुमचा ईमेल कधीही शेअर करणार नाही.",
+      "email.required": "ईमेल आवश्यक आहे.",
+      "email.pattern": "ईमेलचा फॉरमॅट चुकीचा आहे.",
+      
+      "password.label": "पासवर्ड",
+      "password.placeholder": "तुमचा पासवर्ड लिहा",
+      "password.required": "पासवर्ड आवश्यक आहे.",
+      "password.pattern": "पासवर्ड ८-१५ अक्षरांचा असावा (मोठे अक्षर, छोटे अक्षर, अंक आणि विशेष चिन्ह असणे आवश्यक).",
+      
+      "button.login": "प्रवेश",
+      "attempt.remaining": "तुमच्याकडे {{count}} प्रयत्न बाकी आहेत",
+      "attempt.locked": "योग्य माहितीने लॉगिन करण्यासाठी {{seconds}} सेकंदांनी प्रयत्न करा",
+  
+      "button.en": "इंग्रजी",
+      "button.mr": "मराठी"
+    },
+    "navbar": {
+      "brand": "ग्रंथालय प्रणाली",
+      "button.login":"प्रवेश",
+      "button.logOut":"बाहेर पडा"
+    }
+  }
+  

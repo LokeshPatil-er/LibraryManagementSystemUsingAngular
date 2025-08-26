@@ -1,12 +1,12 @@
 <div class="d-flex align-items-center justify-content-center vh-100">
   <div class="card login-card shadow-lg">
     <div class="card-body p-4">
-      <h3 class="text-center mb-4 text-primary">Login</h3>
+      <h3 class="text-center mb-4 text-primary">{{ 'login.title' | translate}}</h3>
       
       <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
        
         <div class="mb-3">
-          <label for="email" class="form-label labelStyle">Email address</label>
+          <label for="email" class="form-label labelStyle">{{'login.email.label' | translate}}</label>
           <input 
             type="email" 
             [(ngModel)]="loginCredential.Email" 
@@ -14,17 +14,17 @@
             #email="ngModel" 
             class="form-control" 
             id="email" 
-            placeholder="Enter your email"  
+            placeholder="{{ 'login.email.placeholder' | translate }}"
             pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"  
             required
           >
-          <div id="emailHelp" class="form-text">We'll never share your email.</div>
-          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['required']">Email is required..</small>
-          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['pattern']">Incorrect email formate..</small>
+          <div id="emailHelp" class="form-text">{{ 'login.email.help' | translate }}</div>
+          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['required']">{{ 'login.email.required' | translate }}</small>
+          <small class="text-danger" *ngIf="(loginForm.submitted || email.touched)&& email.errors?.['pattern']">{{ 'login.email.pattern' | translate }}</small>
         </div>
         
         <div class="mb-3">
-          <label for="password" class="form-label labelStyle">Password</label>
+          <label for="password" class="form-label labelStyle">{{ 'login.password.label' | translate }}</label>
           <div class="input-group">
             <input 
               [type]="showPassword ? 'text' : 'password'" 
@@ -33,7 +33,7 @@
               #password="ngModel"
               class="form-control" 
               id="password" 
-              placeholder="Enter your password" 
+              placeholder="{{ 'login.password.placeholder' | translate }}" 
             
               required
             >
@@ -43,20 +43,20 @@
           </div>
 
           <small class="text-danger" *ngIf="(loginForm.submitted || password.touched)&& password.errors?.['required']">
-            Password is required..
+            {{ 'login.password.required' | translate }}
           </small>
 
           <!--
            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$" 
           <small class="text-danger" *ngIf="password.touched && password.errors?.['pattern']">
-            Password must be at most 8 characters with (Upper case,Lower case and Digit).
+            {{ 'login.password.pattern' | translate }}
           </small> -->
 
          </div>
         
-        <button type="submit"  [disabled]="loginAttemt <= 0 || loginForm.invalid" class="btn btn-primary w-100">Login</button>
-        <small class="text-danger mt-2" *ngIf="!(loginAttemt===0)" ><span *ngIf="loginAttemt < 3"> You have {{loginAttemt}} attempt remaining</span> </small>
-        <small class="text-danger mt-2" *ngIf="loginAttemt===0" >login after {{timeRemainingToLogin}} second with correct login credentials</small>
+        <button type="submit"  [disabled]="loginAttemt <= 0 || loginForm.invalid" class="btn btn-primary w-100">{{'login.button.login' | translate}}</button>
+        <small class="text-danger mt-2" *ngIf="!(loginAttemt===0)" ><span *ngIf="loginAttemt < 3"> {{'login.attempt.remaining' | translate:{count:loginAttemt} }}</span> </small>
+        <small class="text-danger mt-2" *ngIf="loginAttemt===0" >{{'login.attempt.locked' | translate:{seconds:timeRemainingToLogin} }}</small>
       </form>
 
      

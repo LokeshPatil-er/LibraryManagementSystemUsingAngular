@@ -26,6 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if(error.status===401)
       {
        toast.showErrorToast("Unauthorized ","Access Error")
+      
         router.navigate(['/login']);
       }else if(error.status===400)
       {

@@ -31,12 +31,12 @@ export class BooksIssueDetailsComponent {
               private modalService:NgbModal,
               private toastService:ToastService,
               private activeRouter:ActivatedRoute,
-              private router :Router,
-              private spinner:SpinnerService
+              private router :Router
+           
               ){}
 
   ngOnInit():void{
-    this.spinner.spinnerShow();
+ 
 
     this.getMembersList();
     this.selectedBookissueId=this.activeRouter.snapshot.paramMap.get('bookIssueId');
@@ -46,12 +46,12 @@ export class BooksIssueDetailsComponent {
           this.BookIssuedDetailsById(this.selectedBookissueId)
       }
 
-      this.spinner.spinnerHide();
+    
   }
 
 //use to add file to SelectedFileForUpload
   onFileChange() {
-    this.spinner.spinnerShow()
+  
 
     const files = this.InputFiles.nativeElement.files;
   
@@ -76,7 +76,7 @@ export class BooksIssueDetailsComponent {
       }
     }
   
-    this.spinner.spinnerHide();
+ 
 
     console.log(this.booksIssueDetailsModel.SelectedFilesForUpload);
   }
@@ -140,11 +140,11 @@ export class BooksIssueDetailsComponent {
 //use to add or update issue realted details to db 
 BooksIssueDetailsStored(issueForm:NgForm)
 {
-  this.spinner.spinnerShow()
+ 
 
     if(issueForm.invalid)
     {
-      this.spinner.spinnerHide();
+   
 
       this.toastService.showErrorToast("fill all requied information",'Validation Error');
       return;
@@ -175,7 +175,7 @@ BooksIssueDetailsStored(issueForm:NgForm)
         }
     })
 
-    this.spinner.spinnerHide();
+   
 }
 
 //use for get single issue details with id
@@ -208,8 +208,7 @@ BookIssuedDetailsById(issueId:number)
   //use for uploaded file download
   DownloadUploadedFile(filePath:string,fileName:string,bookIssueId:string)
   {
-    this.spinner.spinnerShow();
-
+    
     this.booksIssueservice.DownloadFile(filePath,bookIssueId).subscribe(blob=>{
       console.log(blob);
       const fileUrl=window.URL.createObjectURL(blob);
@@ -220,13 +219,13 @@ BookIssuedDetailsById(issueId:number)
       window.URL.revokeObjectURL(fileUrl);
     })
 
-    this.spinner.spinnerHide();
+   
   }
 
   //use for reset form data
   IssueFormReset(form:NgForm)
   {
-    this.spinner.spinnerShow();
+   
 
     this.booksIssueDetailsModel=new BooksIssueDetails();
     form.resetForm()
@@ -235,7 +234,7 @@ BookIssuedDetailsById(issueId:number)
       this.router.navigate(['/BooksIssuedList'])
     }
 
-    this.spinner.spinnerHide();
+  
       
   }
 

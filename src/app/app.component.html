@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" routerLink="">Library System</a>
+      <a class="navbar-brand" routerLink="">{{'navbar.brand' | translate}}</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -22,11 +22,26 @@
         </ul>
         
       </div>
-      <div class="d-flex justify-content-end">
-        <button *ngIf="authSevice.isLoggedIn()" class="btn btn-sm btn-outline-danger" type="button" (click)="logOutBtnClick()">LogOut</button>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button *ngIf="!authSevice.isLoggedIn()" class="btn btn-sm btn-outline-primary" type="button" routerLink="/login">Login</button>
+
+      <div class=" d-grid gap-2 d-flex justify-content-end">
+
+          
+       
+
+        <ng-select
+            [items]="languages"
+            bindLabel="label"
+            bindValue="value"
+            [(ngModel)]="currentLang"
+            (change)="switchLang($event)">
+        </ng-select>
+     
+
+      
+        <button *ngIf="authSevice.isLoggedIn()" class="btn btn-sm btn-outline-danger" type="button" (click)="logOutBtnClick()">{{'navbar.button.logOut' | translate}}</button>
+      
+      
+        <button *ngIf="!authSevice.isLoggedIn()" class="btn btn-sm btn-outline-primary" type="button" routerLink="/login">{{'navbar.button.login' | translate}}</button>
       </div>
     </div>
   </nav>
